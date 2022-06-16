@@ -27,17 +27,17 @@ def sockrecv2(host,port):
 
     while True:
         axis0, address = sock.recvfrom(max_length)
-        data0 = axis0.decode()
+        data0 = float(axis0.decode())
         # print(type(float(data0)))
         print("Axis 0 value: ", data0)
         axis1, address = sock.recvfrom(max_length)
-        data1 = axis1.decode()
+        data1 = float(axis1.decode())
         print("Axis 1 value: ", data1)
         axis2, address = sock.recvfrom(max_length)
-        data2 = axis2.decode()
+        data2 = float(axis2.decode())
         print("Axis 2 value: ", data2)
         axis3, address = sock.recvfrom(max_length)
-        data3 = axis3.decode()
+        data3 = float(axis3.decode())
         print("Axis 3 value: ", data3)
 
 if __name__ == '__main__':
