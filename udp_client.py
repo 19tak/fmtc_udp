@@ -7,8 +7,9 @@ import sys
 import pygame
 
 max_length = 65000
-# host = '10.30.18.10'
-host = '10.10.0.79'
+host = '10.30.18.22'
+# host = '10.10.0.55'
+# host = '10.10.0.79'
 port = 5000
 
 def sockmsg(host,port):
@@ -38,30 +39,15 @@ def sockmsg2(host,port):
         for i in range(joystick_count):
             joystick = pygame.joystick.Joystick(i)
             joystick.init()
-            # try:
-            #     jid = joystick.get_instance_id()
-            # except AttributeError:
-            #     jid = joystick.get_id()
-            # name = joystick.get_name()
-            # try:
-            #     guid = joystick.get_guid()
-            # except AttributeError:
-            #     pass
-            # else:
-            #     pass
             axes = joystick.get_numaxes()
             print("Number of axes: {}".format(axes))
             for i in range(axes):
                 axis = joystick.get_axis(i)*100
                 a = str(axis)
                 sock.sendto(a.encode(),(host,port))
-                print("Axis {} value: {:>6.3f}".format(i, axis))
-            # buttons = joystick.get_numbuttons()
-            # for i in range(buttons):
-            #     button = joystick.get_button(i)
-            # hats = joystick.get_numhats()
-            # for i in range(hats):
-            #     hat = joystick.get_hat(i)
+                # print(sys.getsizeof(a.encode()))
+                if i == 0:print("Axis {} value: {:>6.3f}".format(i, axis))
+                # print("Axis {} value: {:>6.3f}".format(i, axis))
         clock.tick(20)
     pygame.quit()
 
