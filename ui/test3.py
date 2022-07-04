@@ -13,7 +13,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
-host = '10.30.18.65'
+host = '10.30.18.13'
 port = 5000
 max_length = 65540
 
@@ -74,8 +74,8 @@ def test():
             QtWidgets.QMessageBox.about(win, "Error", "Cannot read frame.")
             print("cannot read frame.")
             print(e)
-            break
-            # pass
+            # break
+            pass
 
     # print("Thread end.")
 

@@ -18,6 +18,8 @@ import threading
 import pygame
 import time
 
+# monitor 3440 * 1440
+
 # host = '10.30.18.65'
 # port = 5000
 # max_length = 65540
