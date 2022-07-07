@@ -18,12 +18,19 @@ from PyQt5.QtGui import *
 from PyQt5 import QtGui
 from PyQt5 import uic
 
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
+
 # from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 
 import threading
 
-# import pygame
-# import time
+import pygame
+import time
+
+# pygame.init()
+# done = False
+# clock = pygame.time.Clock()
+# pygame.joystick.init()
 
 # monitor 3440 * 1440
 
@@ -32,12 +39,15 @@ host = '10.30.18.18'
 port1 = 5000
 max_length = 65540
 port2 = 5050
+# port3 = 6000
+# host2 = '10.30.18.65'
 
 sock1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock1.bind((host, port1))
 sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock2.bind((host, port2))
 # sock3 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# sock3.bind((host, port3))
 
 # it's for camera image sent by udp -> pyqt
 running = False
@@ -113,7 +123,9 @@ class MyWindow(QMainWindow, form_class):
         global running
         running = False
         self.pushButton_cam_on.setStyleSheet("background-color: gray")
-        self.pushButton_cam_off.setStyleSheet("background-color: green")        
+        self.pushButton_cam_off.setStyleSheet("background-color: green")      
+        self.led_ACC_status.setStyleSheet("background-color: gray")  
+        self.led_MDPS_status.setStyleSheet("background-color: gray")
         print("stopped..")
 
     def start(self,*argv):
@@ -129,8 +141,9 @@ class MyWindow(QMainWindow, form_class):
         # print("test start")
         # th3 = threading.Thread(target = self.test2)
         # th3.start()
-        # th3 = threading.Thread(target = self.sockjoy(host,port1))
+        # th3 = threading.Thread(target = self.sockjoy(host,port3))
         # th3.start()
+        # th3 = threading.Thread(target = self.joy(host2,port1))
 
     def onExit(self,*argv):
         print("exit")
@@ -169,6 +182,8 @@ class MyWindow(QMainWindow, form_class):
                     # print("sas_angle: ",sas_angle)
                     # print("MDPS_Module_Stat: ",MDPS_Module_Stat)
                     # print("ACC_Module_Stat: ",ACC_Module_Stat)
+                    # self.lcdNumber_vx.display("vx")
+                    # self.lcdNumber_sas_angle.display("sas_angle")
                     self.lcdNumber_vx.display(vx)
                     self.lcdNumber_sas_angle.display(sas_angle)
                     if (MDPS_Module_Stat):
@@ -181,18 +196,37 @@ class MyWindow(QMainWindow, form_class):
                         self.led_ACC_status.setStyleSheet("background-color: gray")
                 except Exception as e:
                     print(e)
-                    print("Vx err")
-                    print("sas err")
-                    # self.lcdNumber_vx.display("ERR")
-                    # self.lcdNumber_sas_angle("ERR")
+                    # print("Vx err")
+                    # print("sas err")
+                    self.lcdNumber_vx.display("ERR")
+                    self.lcdNumber_sas_angle.display("ERR")
                     self.led_MDPS_status.setStyleSheet("background-color: red")
                     self.led_ACC_status.setStyleSheet("background-color: red")
+                    pass
 
-    # def joy(self):
-    #     pygame.init()
-    #     done = False
-    #     clock = pygame.time.Clock()
-    #     pygame.joystick.init()
+    # def sockjoy(self,*argv):
+    #     while True:
+    #         data4, address = sock3.recvfrom(200)
+    #         axis_info = pickle.loads(data4)
+    #         if axis_info:
+    #             try:
+    #                 axis0 = axis_info[0]
+    #                 axis2 = axis_info[2]
+    #                 axis3 = axis_info[3]
+    #                 self.lcdNumber_acc.display(axis0)
+    #                 self.lcdNumber_brk.display(axis2)
+    #                 self.lcdNumber_str.display(axis3)
+    #             except Exception as e:
+    #                 print(e)
+    #                 self.lcdNumber_acc.display("ERR")
+    #                 self.lcdNumber_brk.display("ERR")
+    #                 self.lcdNumber_str.display("ERR")
+    #                 pass
+    #     # pygame.init()
+    #     # done = False
+    #     # clock = pygame.time.Clock()
+    #     # pygame.joystick.init()
+    #     global done
 
     #     while not done:
     #         for event in pygame.event.get(): # User did something.
@@ -208,17 +242,18 @@ class MyWindow(QMainWindow, form_class):
     #             joystick.init()
     #             axes = joystick.get_numaxes()
     #             print("Number of axes: {}".format(axes))
+    #             tmp = []
     #             for i in range(axes):
     #                 axis = joystick.get_axis(i)*100
-    #                 # a = str(axis)
-    #                 # sock3.sendto(a.encode(),(host,port))
-    #                 # print(sys.getsizeof(a.encode()))
-    #                 if i == 0:print("Axis {} value: {:>6.3f}".format(i, axis))
-    #                 # print("Axis {} value: {:>6.3f}".format(i, axis))
+    #                 a = str(axis)
+    #                 tmp.append(a)
+    #                 print("Axis {} value: {:>6.3f}".format(i, axis))
+    #             axis_info = {"axis0":tmp[0],"axis1":tmp[1],"axis2":tmp[2],"axis3":tmp[3]}
+    #             sock3.sendto(pickle.dumps(axis_info),(host2,port1))
     #         clock.tick(20)
     #     pygame.quit()
         
-# from here, it's for joy_client        
+# # from here, it's for joy_client        
 # sock3 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # def sockjoy(host,port):
 #     pygame.init()
@@ -257,4 +292,4 @@ if __name__ == "__main__":
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
-    # sockjoy(host,port1)
+    # sockjoy(host2,port1)

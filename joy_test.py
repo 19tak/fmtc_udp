@@ -6,23 +6,11 @@ import sys
 
 import pygame
 
-max_length = 65000
-host = '10.10.0.55'
-port = 5000
-# host = '10.10.0.79'
-# host2 = '10.30.18.18'
-# port2 = 6000
+host = '10.30.18.18'
+port = 6000
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# def sockmsg(host,port):
-#     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#     while True:
-#         msg = input("->")
-#         sock.sendto(msg.encode(), (host,port))
-
-sock1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-def sockmsg2(host,port):
+def joy(*argv):
     pygame.init()
     done = False
     clock = pygame.time.Clock()
@@ -52,13 +40,13 @@ def sockmsg2(host,port):
                 # if i == 0:print("Axis {} value: {:>6.3f}".format(i, axis))
                 print("Axis {} value: {:>6.3f}".format(i, axis))
             axis_info = {"axis0":tmp[0],"axis1":tmp[1],"axis2":tmp[2],"axis3":tmp[3]}
-            sock1.sendto(pickle.dumps(axis_info),(host,port))
-            # sock2.sendto(pickle.dumps(axis_info),(host2,port2))
-            print(sys.getsizeof(pickle.dumps(axis_info),(host,port)))
+            sock.sendto(pickle.dumps(axis_info),(host,port))
+            # print(sys.getsizeof(pickle.dumps(axis_info),(host,port)))
+            # yield axis_info
         clock.tick(20)
     pygame.quit()
 
 
 if __name__ == '__main__':
     # sockmsg(host,port)
-    sockmsg2(host,port)
+    joy()

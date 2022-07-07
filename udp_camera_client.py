@@ -11,8 +11,8 @@ import numpy as np
 
 max_length = 65000
 # host = '192.168.0.139'
-host = '10.30.18.46'
-# host = '10.10.0.79'
+# host = '10.30.18.46'
+host = '10.10.0.55'
 port = 5000
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
