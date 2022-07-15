@@ -9,8 +9,8 @@ import pygame
 max_length = 65000
 host = '10.10.0.55'
 port = 5000
-host2 = '10.30.18.18'
-# host2 = '10.10.0.10'
+# host2 = '10.30.18.18'
+host2 = '10.10.0.10'
 port2 = 6000
 
 sock1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

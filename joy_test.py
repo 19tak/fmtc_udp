@@ -40,6 +40,7 @@ def joy(*argv):
                 # if i == 0:print("Axis {} value: {:>6.3f}".format(i, axis))
                 print("Axis {} value: {:>6.3f}".format(i, axis))
             axis_info = {"axis0":tmp[0],"axis1":tmp[1],"axis2":tmp[2],"axis3":tmp[3]}
+            # print(axis_info)
             sock.sendto(pickle.dumps(axis_info),(host,port))
             # print(sys.getsizeof(pickle.dumps(axis_info),(host,port)))
             # yield axis_info
