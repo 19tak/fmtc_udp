@@ -1,8 +1,2 @@
-module_test/
-
-!module_test/*.jpg
-!module_test/*.png
-!module_test/*.avi
-!module_test/*.ui
-
-!module_test/test*
+*.avi
+*.wav
